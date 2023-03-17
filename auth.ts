@@ -43,6 +43,12 @@ export function applyAuth(APP: Express) {
     }))
         .use(passport.initialize())
         .use(passport.session())
+        /* Request body should be like :
+        {
+            "username":"john",
+            "password":"P455w0rd"
+        }
+         */
         .post('/login', authenticate, (req: Request, res: Response) => {
             res.send({
                 message: 'Logged In Successful',
@@ -62,7 +68,7 @@ export function applyAuth(APP: Express) {
         // TODO : Return User Information
         .get('/secret', ensureAuthenticated, function (req: Request, res: Response, next: NextFunction) {
             res.send({
-                message: 'Hello ' + getUser(req).username + ' !'
+                username: getUser(req).username
             })
         });
 }
@@ -93,9 +99,11 @@ export const ensureAuthenticated = (req: Request, res: Response, next: CallableF
  * compare given hashed password with the hashed database password.
  */
 passport.use('login',
-    new passportLocal.Strategy({usernameField: 'mail'},
+    new passportLocal.Strategy(
         async function (username, password, done) {
             try {
+                // TODO : Make identification with an external service. (By example a Database, or another API).
+                //  It could help to retrieve more information about the user.
                 if (password === process.env.AUTH_PASSWORD && password === process.env.AUTH_USERNAME) {
                     // Log In Successfully
                     return done(null, new User(username));
