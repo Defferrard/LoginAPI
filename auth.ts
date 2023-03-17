@@ -36,7 +36,7 @@ export function applyAuth(APP: Express) {
         resave: false,
         saveUninitialized: false,
         cookie: {
-            secure: true, // HTTPS only
+            secure: process.env.HTTPS?.toLowerCase() === "true", // HTTPS only
             httpOnly: true, // Prevent XSS attacks
             maxAge: 4 * 60 * 60 * 1000 // set expires time in milliseconds: 4 hours
         }
@@ -52,7 +52,7 @@ export function applyAuth(APP: Express) {
         .post('/login', authenticate, (req: Request, res: Response) => {
             res.send({
                 message: 'Logged In Successful',
-                userId: getUser(req).username
+                username: getUser(req).username
             })
         })
         .post('/logout', function (req: Request, res: Response, next: NextFunction) {
@@ -104,7 +104,7 @@ passport.use('login',
             try {
                 // TODO : Make identification with an external service. (By example a Database, or another API).
                 //  It could help to retrieve more information about the user.
-                if (password === process.env.AUTH_PASSWORD && password === process.env.AUTH_USERNAME) {
+                if (password === process.env.AUTH_PASSWORD && username === process.env.AUTH_USERNAME) {
                     // Log In Successfully
                     return done(null, new User(username));
                 }
@@ -142,13 +142,13 @@ const authenticate = (req: Request, res: Response, next: CallableFunction) => {
  */
 passport.serializeUser(function (user: any, done) {
     if (user) {
-        done(null, user.mail);
+        done(null, user.username);
     }
 });
 
 /**
  * Indicate how to retrieve the user's data
  */
-passport.deserializeUser(function (mail: string, done) {
-    done(null, new User(mail));
+passport.deserializeUser(function (username: string, done) {
+    done(null, new User(username));
 });

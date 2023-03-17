@@ -68,6 +68,7 @@ APP.use(EXPRESS.json())
 | SESSION_SECRET | secure_me | Secret Password for the session, please generate a secure random secret |
 | AUTH_USERNAME  |           | User's username that can log in the API                                 |
 | AUTH_PASSWORD  |           | User's password that can log in the API                                 |
+| HTTPS          | false     | Use secure cookie, for https only (WIP)                                 |
 
 # More Information
 
