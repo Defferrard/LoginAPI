@@ -1,8 +1,11 @@
 import {APP} from '../index'
 import 'mocha';
-import {expect} from 'chai';
 import supertest from "supertest";
-import superagent from "superagent";
+
+process.env = {
+    "AUTH_USERNAME": "john",
+    "AUTH_PASSWORD": "123"
+};
 
 describe("Authentication Routes", () => {
     context("Login", () => {
@@ -12,7 +15,7 @@ describe("Authentication Routes", () => {
                 .expect('Content-Type', 'application/json; charset=utf-8')
                 .expect(200)
                 .send({
-                        "mail": "john",
+                        "username": "john",
                         "password": "123"
                     }
                 )
@@ -25,7 +28,7 @@ describe("Authentication Routes", () => {
                 .expect('Content-Type', 'application/json; charset=utf-8')
                 .expect(401)
                 .send({
-                        "mail": "john",
+                        "username": "john",
                         "password": "1234"
                     }
                 )
@@ -38,7 +41,7 @@ describe("Authentication Routes", () => {
                 .expect('Content-Type', 'application/json; charset=utf-8')
                 .expect(401)
                 .send({
-                        "email": "john",
+                        "mail": "john",
                         "password": "123"
                     }
                 )
@@ -61,7 +64,7 @@ describe("Authentication Routes", () => {
                 .expect('Content-Type', 'application/json; charset=utf-8')
                 .expect(401)
                 .send({
-                        "mail": "john",
+                        "username": "john",
                         "password": "1234"
                     }
                 )
@@ -80,7 +83,7 @@ describe("Authentication Routes", () => {
                 .expect('Content-Type', 'application/json; charset=utf-8')
                 .expect(200)
                 .send({
-                        "mail": "john",
+                        "username": "john",
                         "password": "123"
                     }
                 )
@@ -109,7 +112,7 @@ describe("Authentication Routes", () => {
                 .expect('Content-Type', 'application/json; charset=utf-8')
                 .expect(200)
                 .send({
-                        "mail": "john",
+                        "username": "john",
                         "password": "123"
                     }
                 )
@@ -128,7 +131,7 @@ describe("Authentication Routes", () => {
                 .expect('Content-Type', 'application/json; charset=utf-8')
                 .expect(401)
                 .send({
-                        "mail": "john",
+                        "username": "john",
                         "password": "1234"
                     }
                 )
@@ -147,7 +150,7 @@ describe("Authentication Routes", () => {
                 .expect('Content-Type', 'application/json; charset=utf-8')
                 .expect(200)
                 .send({
-                        "mail": "john",
+                        "username": "john",
                         "password": "123"
                     }
                 )
